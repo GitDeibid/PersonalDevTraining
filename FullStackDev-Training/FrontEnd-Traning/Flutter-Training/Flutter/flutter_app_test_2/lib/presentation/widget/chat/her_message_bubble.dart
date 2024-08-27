@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_test_2/domain/entities/message.dart';
 
 class HerMessageBubble extends StatelessWidget {
-  const HerMessageBubble({super.key});
+  final Message herMsn;
+
+  const HerMessageBubble({
+    super.key, 
+    required this.herMsn
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,27 +21,33 @@ class HerMessageBubble extends StatelessWidget {
             color: colors.secondary,
             borderRadius: BorderRadius.circular(20)
           ),
-          child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-            child: Text('Adipisicing sint culpa reprehenderit labore consectetur qui ad amet sunt proident irure Lorem.', style: TextStyle(color: Colors.white),),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+            child: Text(herMsn.text, 
+            style: const TextStyle(color: Colors.white),),
           ),
         ),
         const SizedBox(height: 10,),
-        _ImageBubble(),
+        _ImageBubble(herMsn.imgUrl!),
 
       ],
     );
   }
 }
 
-class _ImageBubble extends StatelessWidget {
+class _ImageBubble extends StatelessWidget {  
+  final  String imgURL;
+
+  const _ImageBubble(this.imgURL);
+
   @override
   Widget build(BuildContext context) {
+
     final Size size = MediaQuery.of(context).size;
 
     return ClipRRect( //Widget para recortar.
       borderRadius: BorderRadius.circular(20),
-      child: Image.network('https://yesno.wtf/assets/yes/13-c3082a998e7758be8e582276f35d1336.gif',
+      child: Image.network(imgURL,
       width: size.width*0.3,
       height: 150,
       fit: BoxFit.cover, //Aplica el tamaño del marco rrect al elemento.
@@ -45,7 +57,7 @@ class _ImageBubble extends StatelessWidget {
           width: size.width*0.3,
           height: 150,
           padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 5),
-          child: const Text('Yiss está enviando un mensaje...'),
+          child: const Text('Yiss está enviando un meme...'),
         );
                   
       },

@@ -1,8 +1,11 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_app_test_2/domain/entities/message.dart';
+import 'package:flutter_app_test_2/presentation/providers/chat_provider.dart';
 import 'package:flutter_app_test_2/presentation/widget/chat/her_message_bubble.dart';
 import 'package:flutter_app_test_2/presentation/widget/chat/message_bubble.dart';
 import 'package:flutter_app_test_2/presentation/widget/shared/message_field_box.dart';
+import 'package:provider/provider.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
@@ -39,18 +42,21 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
   
   @override
-  // TODO: implement preferredSize
   Size get preferredSize => const Size.fromHeight(kToolbarHeight); //What is this?
 
 }
 
 //ChatView a traves de listview.
 
-class _ChatView extends StatelessWidget {
+class _ChatView extends StatelessWidget { //Provider maneja el estado.
+  
   
 
   @override
   Widget build(BuildContext context) {
+
+    final chatProvider = context.watch<ChatProvider>(); // Provider del chat || En base al contexto de la aplicación, como el provider fue definido a un nivel alto, es posible llamarlo desde acá...
+
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -58,14 +64,21 @@ class _ChatView extends StatelessWidget {
           children: [
             Expanded(
               child:ListView.builder(
-                itemCount: 20,//Define la cantidad máxima de elementos sobre los cuales es posible hacer scroll...
-                itemBuilder: (BuildContext context, int index) { //Construido en timpo de ejecución.                
-                return (index % 2 == 0)
+                controller: chatProvider.chatScrollController, //Desde el provider...
+                
+                itemCount: chatProvider.msnList.length, //Revisa cuantos mensajes hay.
+                //itemCount: 20,//Define la cantidad máxima de elementos sobre los cuales es posible hacer scroll...
+                itemBuilder: (BuildContext context, int index) { //Construido en timpo de ejecución.     
+                  final msn = chatProvider.msnList[index];
+                  return (msn.fW == FromWho.her) 
+                  ? HerMessageBubble(herMsn: msn,) //Debe recibir la imagen como obligatoria.
+                  : MyMessageBubble(msn: msn,);           
+                /*return (index % 2 == 0)
                 ? const HerMessageBubble()
-                : const MyMessageBubble();
+                : const MyMessageBubble();*/
                },
               )), //Expande el widget hijo al espacio disponible del padre.
-            const MessageFieldBox()
+            MessageFieldBox(onValue: (value) => chatProvider.sendMessage(value),)
           ],
         ),
       ),//Varios widget internos.
