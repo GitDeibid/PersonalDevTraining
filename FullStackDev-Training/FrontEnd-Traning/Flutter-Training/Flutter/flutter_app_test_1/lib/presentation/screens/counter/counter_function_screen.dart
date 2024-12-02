@@ -88,7 +88,7 @@ class CustomFAButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      shape: StadiumBorder(),
+      shape: const StadiumBorder(),
       /*
       onPressed: (){// Elemento dinámico no constante.
         
