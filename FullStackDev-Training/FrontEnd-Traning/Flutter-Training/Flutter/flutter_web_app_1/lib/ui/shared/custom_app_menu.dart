@@ -63,6 +63,14 @@ class _TDMenu extends StatelessWidget {
               txt: 'Stateful100',
               onPressed: () =>
                   locator<NavigationService>().navigateTo('stateful/100'),
+              color: Colors.black),
+          SizedBox(
+            width: 10,
+          ),
+          CustomFlatBtn(
+              txt: 'Provider 200',
+              onPressed: () =>
+                  locator<NavigationService>().navigateTo('/provider?q=200'),
               color: Colors.black)
         ],
       ),

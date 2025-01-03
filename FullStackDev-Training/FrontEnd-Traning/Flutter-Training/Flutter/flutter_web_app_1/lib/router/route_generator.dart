@@ -16,7 +16,11 @@ class RouteGenerator {
           settings: RouteSettings(name: '/stateful'),
           builder: (_) => const CounterPage()); */
       case 'provider':
-        return _fadeRoute(const CounterProviderView(), '/provider');
+        return _fadeRoute(
+            const CounterProviderView(
+              base: '5',
+            ),
+            '/provider');
       /* MaterialPageRoute(
           settings: RouteSettings(name: '/provider'),
           builder: (_) => const CounterProviderPage()); */
